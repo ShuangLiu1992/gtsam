@@ -70,20 +70,8 @@ include(cmake/HandleGlobalBuildFlags.cmake) # Build flags
 ###############################################################################
 # Add components
 
-# Build CppUnitLite
-add_subdirectory(CppUnitLite)
-
 # Build GTSAM library
 add_subdirectory(gtsam)
-
-# Build Tests
-add_subdirectory(tests)
-
-# Build examples
-add_subdirectory(examples)
-
-# Build timing
-add_subdirectory(timing)
 
 # Build gtsam_unstable
 if (GTSAM_BUILD_UNSTABLE)
