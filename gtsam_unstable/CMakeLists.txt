@@ -3,12 +3,12 @@ project(gtsam_unstable LANGUAGES CXX)
 # Build full gtsam_unstable library as a single library
 # and also build tests
 set (gtsam_unstable_subdirs
-    base
+    #base
     geometry
-    linear
-    discrete
-    dynamics
-    nonlinear
+    #linear
+    #discrete
+    #dynamics
+    #nonlinear
     slam
 )
 
