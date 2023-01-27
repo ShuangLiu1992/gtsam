@@ -237,13 +237,21 @@ protected:
     return error;
   }
 
+  template<typename T, typename... Args>
+  constexpr bool is_valid() {
+      if constexpr(sizeof...(Args)==0)
+          return true;
+      else
+          return !std::is_same_v<T,std::tuple_element_t<0,std::tuple<Args...> > > ;
+  }
+
   /** 
    * An overload of unwhitenedError. This allows
    * end users to provide optional arguments that are l-value references
    * to the matrices and vectors that will be used to store the results instead
    * of pointers.
    */
-  template<class POINT, class ...OptArgs>
+  template<class POINT, class ...OptArgs, typename = std::enable_if_t<sizeof...(OptArgs)!=0>>
   Vector unwhitenedError(
       const Cameras& cameras, const POINT& point,
       OptArgs&&... optArgs) const {
