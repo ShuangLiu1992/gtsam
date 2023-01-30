@@ -75,13 +75,6 @@ foreach(subdir ${gtsam_subdirs})
 endforeach(subdir)
 list(APPEND gtsam_srcs ${gtsam_core_headers})
 
-IF(MSVC)
-	# Add precompiled header to sources
-	include(gtsamAddPch)
-	gtsamAddPch("precompiled_header.h" "precompiled_header.cpp" "${gtsam_srcs}")
-	list(INSERT gtsam_srcs 0 "precompiled_header.cpp")
-ENDIF(MSVC)
-
 # Generate and install config and dllexport files
 configure_file(config.h.in config.h)
 set(library_name GTSAM) # For substitution in dllexport.h.in
