@@ -1,13 +1,13 @@
 ###############################################################################
 # Find boost
 
-find_package(boost_serialization REQUIRED)
-find_package(boost_system REQUIRED)
-find_package(boost_filesystem REQUIRED)
-find_package(boost_thread REQUIRED)
-find_package(boost_date_time REQUIRED)
-find_package(boost_regex REQUIRED)
-find_package(boost_chrono REQUIRED)
+find_package(boost_serialization 1.81 REQUIRED)
+find_package(boost_system 1.81 REQUIRED)
+find_package(boost_filesystem 1.81 REQUIRED)
+find_package(boost_thread 1.81 REQUIRED)
+find_package(boost_date_time 1.81 REQUIRED)
+find_package(boost_regex 1.81 REQUIRED)
+find_package(boost_chrono 1.81 REQUIRED)
  
 option(GTSAM_DISABLE_NEW_TIMERS "Disables using Boost.chrono for timing" OFF)
 # Allow for not using the timer libraries on boost < 1.48 (GTSAM timing code falls back to old timer library)
