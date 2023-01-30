@@ -70,6 +70,9 @@ include(cmake/HandleGlobalBuildFlags.cmake) # Build flags
 ###############################################################################
 # Add components
 
+find_package(Spectra REQUIRED)
+list(APPEND GTSAM_ADDITIONAL_LIBRARIES Spectra::Spectra)
+
 # Build GTSAM library
 add_subdirectory(gtsam)
 

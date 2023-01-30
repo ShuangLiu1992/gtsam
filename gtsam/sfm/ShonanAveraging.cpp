@@ -16,7 +16,7 @@
  * @brief  Shonan Averaging algorithm
  */
 
-#include <SymEigsSolver.h>
+#include <Spectra/SymEigsSolver.h>
 #include <cmath>
 #include <gtsam/linear/PCGSolver.h>
 #include <gtsam/linear/SubgraphPreconditioner.h>
@@ -576,6 +576,7 @@ static bool PowerMinimumEigenValue(
  * nontrivial function, perform_op(x,y), that computes and returns the product
  * y = (A + sigma*I) x */
 struct MatrixProdFunctor {
+  using Scalar = double;
   // Const reference to an externally-held matrix whose minimum-eigenvalue we
   // want to compute
   const Sparse &A_;
@@ -636,13 +637,12 @@ static bool SparseMinimumEigenValue(
     Eigen::Index numLanczosVectors = 20) {
   // a. Estimate the largest-magnitude eigenvalue of this matrix using Lanczos
   MatrixProdFunctor lmOperator(A);
-  Spectra::SymEigsSolver<double, Spectra::SELECT_EIGENVALUE::LARGEST_MAGN,
-                         MatrixProdFunctor>
-      lmEigenValueSolver(&lmOperator, 1, std::min(numLanczosVectors, A.rows()));
+  Spectra::SymEigsSolver<MatrixProdFunctor>
+      lmEigenValueSolver(lmOperator, 1, std::min(numLanczosVectors, A.rows()));
   lmEigenValueSolver.init();
 
   const int lmConverged = lmEigenValueSolver.compute(
-      maxIterations, 1e-4, Spectra::SELECT_EIGENVALUE::LARGEST_MAGN);
+      Spectra::SortRule::LargestMagn, maxIterations, 1e-4);
 
   // Check convergence and bail out if necessary
   if (lmConverged != 1) return false;
@@ -670,9 +670,8 @@ static bool SparseMinimumEigenValue(
 
   MatrixProdFunctor minShiftedOperator(A, -2 * lmEigenValue);
 
-  Spectra::SymEigsSolver<double, Spectra::SELECT_EIGENVALUE::LARGEST_MAGN,
-                         MatrixProdFunctor>
-      minEigenValueSolver(&minShiftedOperator, 1,
+  Spectra::SymEigsSolver<MatrixProdFunctor>
+      minEigenValueSolver(minShiftedOperator, 1,
                           std::min(numLanczosVectors, A.rows()));
 
   // If S is a critical point of F, then S^T is also in the null space of S -
@@ -701,8 +700,7 @@ static bool SparseMinimumEigenValue(
   // order to be able to estimate the smallest eigenvalue within an *absolute*
   // tolerance of 'minEigenvalueNonnegativityTolerance'
   const int minConverged = minEigenValueSolver.compute(
-      maxIterations, minEigenvalueNonnegativityTolerance / lmEigenValue,
-      Spectra::SELECT_EIGENVALUE::LARGEST_MAGN);
+      Spectra::SortRule::LargestMagn, maxIterations, minEigenvalueNonnegativityTolerance / lmEigenValue);
 
   if (minConverged != 1) return false;
 

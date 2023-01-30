@@ -135,6 +135,7 @@ target_include_directories(gtsam BEFORE PUBLIC
   # unit tests:
   $<BUILD_INTERFACE:${GTSAM_SOURCE_DIR}/CppUnitLite>
 )
+
 # 3rdparty libraries: use the "system" flag so they are included via "-isystem"
 # and warnings (and warnings-considered-errors) in those headers are not
 # reported as warnings/errors in our targets:
@@ -142,8 +143,6 @@ target_include_directories(gtsam SYSTEM BEFORE PUBLIC
   # SuiteSparse_config
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SuiteSparse_config>
   $<INSTALL_INTERFACE:include/gtsam/3rdparty/SuiteSparse_config>
-  # Spectra
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/Spectra>
   # CCOLAMD
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/CCOLAMD/Include>
   $<INSTALL_INTERFACE:include/gtsam/3rdparty/CCOLAMD>
