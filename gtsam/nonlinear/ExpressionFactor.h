@@ -24,7 +24,9 @@
 #include <gtsam/base/Testable.h>
 #include <gtsam/nonlinear/Expression.h>
 #include <gtsam/nonlinear/NonlinearFactor.h>
+
 #include <numeric>
+#include <utility>
 
 namespace gtsam {
 
@@ -42,7 +44,7 @@ namespace gtsam {
  */
 template <typename T>
 class ExpressionFactor : public NoiseModelFactor {
-  BOOST_CONCEPT_ASSERT((IsTestable<T>));
+  GTSAM_CONCEPT_ASSERT(IsTestable<T>);
 
 protected:
 
@@ -147,7 +149,7 @@ protected:
       noiseModel_->WhitenSystem(Ab.matrix(), b);
     }
 
-    return factor;
+    return std::move(factor);
   }
 
   /// @return a deep copy of this factor
@@ -252,9 +254,6 @@ public:
   // Provide access to the Matrix& version of unwhitenedError:
   using ExpressionFactor<T>::unwhitenedError;
 
-  /// Destructor
-  ~ExpressionFactorN() override = default;
-
   // Don't provide backward compatible evaluateVector(), due to its problematic
   // variable length of optional Jacobian arguments. Vector evaluateError(const
   // Args... args,...);
@@ -288,6 +287,7 @@ private:
     return expression(keys);
   }
 
+#ifdef GTSAM_ENABLE_BOOST_SERIALIZATION
   friend class boost::serialization::access;
   template <class ARCHIVE>
   void serialize(ARCHIVE &ar, const unsigned int /*version*/) {
@@ -295,6 +295,7 @@ private:
         "ExpressionFactorN",
         boost::serialization::base_object<ExpressionFactor<T>>(*this));
   }
+#endif
 };
 /// traits
 template <typename T, typename... Args>

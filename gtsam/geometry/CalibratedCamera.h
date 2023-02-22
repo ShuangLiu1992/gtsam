@@ -223,7 +223,7 @@ public:
    * @return a pair of [start, end] indices into the tangent space vector
    */
   inline static std::pair<size_t, size_t> translationInterval() {
-    return std::make_pair(3, 5);
+    return {3, 5};
   }
 
   /// @}
@@ -306,14 +306,6 @@ public:
   /// construct from vector
   explicit CalibratedCamera(const Vector &v) :
       PinholeBase(v) {
-  }
-
-  /// @}
-  /// @name Standard Interface
-  /// @{
-
-  /// destructor
-  virtual ~CalibratedCamera() {
   }
 
   /// @}

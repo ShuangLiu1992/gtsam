@@ -14,7 +14,7 @@ print_enabled_config(${GTSAM_BUILD_TIMING_ALWAYS}         "Build timing scripts 
 if (DOXYGEN_FOUND)
     print_enabled_config(${GTSAM_BUILD_DOCS}              "Build Docs")
 endif()
-print_enabled_config(${BUILD_SHARED_LIBS}                 "Build shared GTSAM libraries")
+print_enabled_config(${GTSAM_SHARED_LIB}                  "Build shared GTSAM libraries")
 print_enabled_config(${GTSAM_BUILD_TYPE_POSTFIXES}        "Put build type in library name")
 if(GTSAM_UNSTABLE_AVAILABLE)
     print_enabled_config(${GTSAM_BUILD_UNSTABLE}          "Build libgtsam_unstable        ")
@@ -28,6 +28,8 @@ if(NOT MSVC AND NOT XCODE_VERSION)
     print_config("C compilation flags" "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_${CMAKE_BUILD_TYPE_UPPER}}")
     print_config("C++ compilation flags" "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE_UPPER}}")
 endif()
+
+print_config("Enable Boost serialization" "${GTSAM_ENABLE_BOOST_SERIALIZATION}")
 
 print_build_options_for_target(gtsam)
 

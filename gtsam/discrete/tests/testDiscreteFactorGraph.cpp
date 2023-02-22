@@ -107,11 +107,15 @@ TEST(DiscreteFactorGraph, test) {
   graph.add(C & B, "3 1 1 3");
 
   // Test EliminateDiscrete
-  Ordering frontalKeys;
-  frontalKeys += Key(0);
-  DiscreteConditional::shared_ptr conditional;
-  DecisionTreeFactor::shared_ptr newFactor;
-  std::tie(conditional, newFactor) = EliminateDiscrete(graph, frontalKeys);
+  const Ordering frontalKeys{0};
+  const auto [conditional, newFactorPtr] = EliminateDiscrete(graph, frontalKeys);
+
+  DecisionTreeFactor newFactor = *newFactorPtr;
+
+  // Normalize newFactor by max for comparison with expected
+  auto normalization = newFactor.max(newFactor.size());
+
+  newFactor = newFactor / *normalization;
 
   // Check Conditional
   CHECK(conditional);
@@ -120,17 +124,18 @@ TEST(DiscreteFactorGraph, test) {
   EXPECT(assert_equal(expectedConditional, *conditional));
 
   // Check Factor
-  CHECK(newFactor);
+  CHECK(&newFactor);
   DecisionTreeFactor expectedFactor(B & A, "10 6 6 10");
-  EXPECT(assert_equal(expectedFactor, *newFactor));
+  // Normalize by max.
+  normalization = expectedFactor.max(expectedFactor.size());
+  // Ensure normalization is correct.
+  expectedFactor = expectedFactor / *normalization;
+  EXPECT(assert_equal(expectedFactor, newFactor));
 
   // Test using elimination tree
-  Ordering ordering;
-  ordering += Key(0), Key(1), Key(2);
+  const Ordering ordering{0, 1, 2};
   DiscreteEliminationTree etree(graph, ordering);
-  DiscreteBayesNet::shared_ptr actual;
-  DiscreteFactorGraph::shared_ptr remainingGraph;
-  std::tie(actual, remainingGraph) = etree.eliminate(&EliminateDiscrete);
+  const auto [actual, remainingGraph] = etree.eliminate(&EliminateDiscrete);
 
   // Check Bayes net
   DiscreteBayesNet expectedBayesNet;
@@ -235,8 +240,7 @@ TEST(DiscreteFactorGraph, testMPE_Darwiche09book_p244) {
   EXPECT(assert_equal(mpe, actualMPE));
 
   // Check Bayes Net
-  Ordering ordering;
-  ordering += Key(0), Key(1), Key(2), Key(3), Key(4);
+  const Ordering ordering{0, 1, 2, 3, 4};
   auto chordal = graph.eliminateSequential(ordering);
   EXPECT_LONGS_EQUAL(5, chordal->size());
 

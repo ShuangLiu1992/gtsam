@@ -45,7 +45,6 @@ class GTSAM_EXPORT DiscreteBayesTreeClique
   typedef std::shared_ptr<This> shared_ptr;
   typedef std::weak_ptr<This> weak_ptr;
   DiscreteBayesTreeClique() {}
-  virtual ~DiscreteBayesTreeClique() {}
   DiscreteBayesTreeClique(
       const std::shared_ptr<DiscreteConditional>& conditional)
       : Base(conditional) {}
@@ -63,7 +62,7 @@ class GTSAM_EXPORT DiscreteBayesTreeClique
 
 /* ************************************************************************* */
 /**
- * @brief A Bayes tree representing a Discrete density.
+ * @brief A Bayes tree representing a Discrete distribution.
  * @ingroup discrete
  */
 class GTSAM_EXPORT DiscreteBayesTree
