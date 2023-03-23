@@ -71,7 +71,7 @@ namespace gtsam {
 
     /** gradient of objective function 0.5*|Ax-b_|^2 at x = A_'*(Ax-b_) */
     Vector gradient(const Vector& x) const {
-      return A() ^ (A() * x - b());
+      return A().transpose() * (A() * x - b());
     }
 
     /** Apply operator A */
