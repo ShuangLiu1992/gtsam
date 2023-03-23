@@ -21,7 +21,19 @@ include(PybindWrap)
 ## Load the necessary files to compile the wrapper
 
 # Load the pybind11 code
-add_subdirectory(${PROJECT_SOURCE_DIR}/wrap/pybind11 pybind11)
+
+
+# This is required to avoid an error in modern pybind11 cmake scripts:
+if(POLICY CMP0057)
+  cmake_policy(SET CMP0057 NEW)
+endif()
+
+# Prefer system pybind11 first, if not found, rely on bundled version:
+find_package(pybind11 CONFIG QUIET)
+if (NOT pybind11_FOUND)
+        add_subdirectory(${PROJECT_SOURCE_DIR}/wrap/pybind11 pybind11)
+endif()
+
 # Set the wrapping script variable
 set(PYBIND_WRAP_SCRIPT "${PROJECT_SOURCE_DIR}/wrap/scripts/pybind_wrap.py")
 ############################################################
@@ -40,6 +52,7 @@ set(ignore
     gtsam::IndexPairVector
     gtsam::BetweenFactorPose2s
     gtsam::BetweenFactorPose3s
+    gtsam::FixedLagSmootherKeyTimestampMapValue
     gtsam::Point2Vector
     gtsam::Point2Pairs
     gtsam::Point3Pairs
@@ -87,7 +100,7 @@ pybind_wrap(${GTSAM_PYTHON_TARGET} # target
             ${PROJECT_SOURCE_DIR}/python/gtsam/gtsam.tpl
             gtsam # libs
             "gtsam;gtsam_header" # dependencies
-            OFF # use_boost
+            ${GTSAM_ENABLE_BOOST_SERIALIZATION} # use_boost_serialization
             )
 
 set_target_properties(${GTSAM_PYTHON_TARGET} PROPERTIES
@@ -144,7 +157,6 @@ if(GTSAM_UNSTABLE_BUILD_PYTHON)
             gtsam::Point2Vector
             gtsam::Pose3Vector
             gtsam::KeyVector
-            gtsam::FixedLagSmootherKeyTimestampMapValue
             gtsam::BinaryMeasurementsPoint3
             gtsam::BinaryMeasurementsUnit3
             gtsam::BinaryMeasurementsRot3
@@ -167,7 +179,7 @@ if(GTSAM_UNSTABLE_BUILD_PYTHON)
             ${PROJECT_SOURCE_DIR}/python/gtsam_unstable/gtsam_unstable.tpl
             gtsam_unstable # libs
             "gtsam_unstable;gtsam_unstable_header" # dependencies
-            OFF # use_boost
+            ${GTSAM_ENABLE_BOOST_SERIALIZATION} # use_boost_serialization
             )
 
     set_target_properties(${GTSAM_PYTHON_UNSTABLE_TARGET} PROPERTIES
