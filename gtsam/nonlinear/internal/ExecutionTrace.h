@@ -38,12 +38,7 @@ template<int T> struct CallRecord;
 /// Storage type for the execution trace.
 /// It enforces the proper alignment in a portable way.
 /// Provide a traceSize() sized array of this type to traceExecution as traceStorage.
-#ifdef _MSC_VER
-// TODO(dellaert): this might lead to trouble if Eigen decides to use 32 on Windows.
-static const unsigned TraceAlignment = 16; // 16 bytes max_align on Windows
-#else
 static const unsigned TraceAlignment = 32; // Alignment used by Eigen on some platforms.
-#endif
 // TODO(dellaert): we *should* be able to simplify the code using the pointer arithmetic from ExecutionTraceStorage.
 typedef std::aligned_storage<1, TraceAlignment>::type ExecutionTraceStorage;
 
