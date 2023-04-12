@@ -138,7 +138,7 @@ namespace gtsam {
     Vector evaluateError(const Pose3& pose, const Point3& point,
         OptionalMatrixType H1, OptionalMatrixType H2) const override {
       try {
-        if(body_P_sensor_) {
+        if(body_P_sensor_.has_value()) {
           if(H1) {
             gtsam::Matrix H0;
             PinholeCamera<CALIBRATION> camera(pose.compose(*body_P_sensor_, H0), *K_);
