@@ -223,7 +223,6 @@ namespace gtsam {
   std::pair<std::shared_ptr<BAYESNET>, std::shared_ptr<GRAPH> >
     EliminationTree<BAYESNET,GRAPH>::eliminate(Eliminate function) const
   {
-    std::cout << "EliminationTree" << std::endl;
     gttic(EliminationTree_eliminate);
     // Allocate result
     auto result = std::make_shared<BayesNetType>();

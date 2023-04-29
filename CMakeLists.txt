@@ -142,6 +142,7 @@ endif()
 
 # CMake Tools
 add_subdirectory(cmake)
+add_subdirectory(CppUnitLite)
 
 # Print configuration variables
 include(cmake/HandlePrintConfiguration.cmake)
