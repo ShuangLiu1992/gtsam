@@ -141,19 +141,6 @@ bool choleskyPartial(Matrix& ABC, size_t nFrontal, size_t topleft) {
     C.selfadjointView<Eigen::Upper>().rankUpdate(B.transpose(), -1.0);
   gttoc(compute_L);
 
-  // Check last diagonal element - Eigen does not check it
-  if (nFrontal >= 2) {
-    int exp2, exp1;
-    // NOTE(gareth): R is already the size of A, so we don't need to add topleft here.
-    (void)frexp(R(nFrontal - 2, nFrontal - 2), &exp2);
-    (void)frexp(R(nFrontal - 1, nFrontal - 1), &exp1);
-    return (exp2 - exp1 < underconstrainedExponentDifference);
-  } else if (nFrontal == 1) {
-    int exp1;
-    (void)frexp(R(0, 0), &exp1);
-    return (exp1 > -underconstrainedExponentDifference);
-  } else {
-    return true;
-  }
+  return true;
 }
 }  // namespace gtsam
