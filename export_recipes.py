@@ -5,7 +5,7 @@ import platform
 if __name__ == "__main__":
     cwd = os.path.dirname(os.path.realpath(__file__))
     target_list = ["Android", "Emscripten", platform.system()]
-    build_types = ["Release", "Debug"]
+    build_types = ["Release", "Debug", "RelWithDebInfo"]
     arch_dict = {
         platform.system(): [{"AMD64": "x86_64", "arm64": "armv8"}.get(platform.machine(), platform.machine())],
         "Emscripten": ["wasm"],

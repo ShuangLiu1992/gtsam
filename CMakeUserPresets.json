@@ -7,6 +7,7 @@
         "/home/sliu/projects/gtsam/.build/Linux_Release_x86_64/build/Release/generators/CMakePresets.json",
         "/home/sliu/projects/gtsam/.build/Linux_Debug_x86_64/build/Debug/generators/CMakePresets.json",
         "/home/sliu/projects/gtsam/.build/Emscripten_Release_wasm/build/Release/generators/CMakePresets.json",
-        "/home/sliu/projects/gtsam/.build/Emscripten_Debug_wasm/build/Debug/generators/CMakePresets.json"
+        "/home/sliu/projects/gtsam/.build/Emscripten_Debug_wasm/build/Debug/generators/CMakePresets.json",
+        "/home/sliu/projects/gtsam/.build/Emscripten_RelWithDebInfo_wasm/build/RelWithDebInfo/generators/CMakePresets.json"
     ]
 }
