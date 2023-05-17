@@ -484,7 +484,7 @@ void ConcurrentBatchFilter::optimize(const NonlinearFactorGraph& factors, Values
           // Reject this change
           if(lambda >= lambdaUpperBound) {
             // The maximum lambda has been used. Print a warning and end the search.
-            std::cout << "Warning:  Levenberg-Marquardt giving up because cannot decrease error with maximum lambda" << std::endl;
+            // std::cout << "Warning:  Levenberg-Marquardt giving up because cannot decrease error with maximum lambda" << std::endl;
             break;
           } else {
             // Increase lambda and continue searching
