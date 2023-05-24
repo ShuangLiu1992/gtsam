@@ -34,7 +34,8 @@ class GTSAMConan(ConanFile):
         tc.variables["GTSAM_BUILD_TYPE_POSTFIXES"] = False
         tc.variables["GTSAM_USE_SYSTEM_METIS"] = True
         tc.variables["GTSAM_SUPPORT_NESTED_DISSECTION"] = False
-        tc.variables["GTSAM_ENABLE_BOOST_SERIALIZATION"] = False
+        tc.variables["GTSAM_ENABLE_BOOST_SERIALIZATION"] = True
+        tc.variables["GTSAM_USE_BOOST_FEATURES"] = True
         tc.variables["GTSAM_UNSTABLE_BUILD_PYTHON"] = False
         tc.generate()
 
