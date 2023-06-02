@@ -1,5 +1,5 @@
 from conan import ConanFile
-import conan.tools.files
+from conan.tools.files import copy
 from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout
 import os
 
@@ -16,6 +16,9 @@ class GTSAMConan(ConanFile):
         self.requires(f"eigen/tag_4.29")
         self.requires(f"spectra/tag_3.23")
         self.requires(f"boost/1.82.0")
+
+    def export_sources(self):
+        copy(self, "*", self.recipe_folder, self.export_sources_folder)
 
     def generate(self):
         tc = CMakeToolchain(self)
@@ -42,7 +45,7 @@ class GTSAMConan(ConanFile):
     def layout(self):
         cmake_layout(self)
 
-    def package(self):
+    def build(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
