@@ -42,7 +42,7 @@ class GTSAMConan(ConanFile):
     def layout(self):
         cmake_layout(self)
 
-    def build(self):
+    def package(self):
         cmake = CMake(self)
         cmake.configure()
         cmake.build()
