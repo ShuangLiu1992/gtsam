@@ -13,8 +13,8 @@ class GTSAMConan(ConanFile):
     exports_sources = "gtsam_msvc.cmake",
 
     def requirements(self):
-        self.requires(f"eigen/tag_4.29")
-        self.requires(f"spectra/tag_3.23")
+        self.requires(f"eigen/local@")
+        self.requires(f"spectra/local@")
         self.requires(f"boost/1.82.0")
 
     def export_sources(self):
