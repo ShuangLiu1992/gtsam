@@ -7,15 +7,16 @@ import os
 class GTSAMConan(ConanFile):
     name = "gtsam"
     settings = "os", "build_type", "compiler", "arch"
-    options = {"shared": [True, False], "fPIC": [True, False], "quaternion": [True, False]}
-    default_options = {"shared": False, "fPIC": True, "quaternion": True}
+    options = {"shared": [True, False], "fPIC": [True, False], "quaternion": [True, False], "enable_boost": [True, False]}
+    default_options = {"shared": False, "fPIC": True, "quaternion": True, "enable_boost": True}
     generators = "CMakeDeps"
     exports_sources = "gtsam_msvc.cmake",
 
     def requirements(self):
         self.requires(f"eigen/local@")
         self.requires(f"spectra/local@")
-        self.requires(f"boost/1.82.0")
+        if self.options.enable_boost:
+            self.requires(f"boost/local@")
 
     def export_sources(self):
         copy(self, "*", self.recipe_folder, self.export_sources_folder)
@@ -37,8 +38,9 @@ class GTSAMConan(ConanFile):
         tc.variables["GTSAM_BUILD_TYPE_POSTFIXES"] = False
         tc.variables["GTSAM_USE_SYSTEM_METIS"] = True
         tc.variables["GTSAM_SUPPORT_NESTED_DISSECTION"] = False
-        tc.variables["GTSAM_ENABLE_BOOST_SERIALIZATION"] = True
-        tc.variables["GTSAM_USE_BOOST_FEATURES"] = True
+        if self.options.enable_boost:
+            tc.variables["GTSAM_ENABLE_BOOST_SERIALIZATION"] = True
+            tc.variables["GTSAM_USE_BOOST_FEATURES"] = True
         tc.variables["GTSAM_UNSTABLE_BUILD_PYTHON"] = False
         tc.generate()
 
