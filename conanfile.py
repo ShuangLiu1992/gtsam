@@ -16,7 +16,7 @@ class GTSAMConan(ConanFile):
         self.requires(f"eigen/local@")
         self.requires(f"spectra/local@")
         if self.options.enable_boost:
-            self.requires(f"boost/local@")
+            self.requires(f"boost/1.82.0@")
 
     def export_sources(self):
         copy(self, "*", self.recipe_folder, self.export_sources_folder)
