@@ -461,26 +461,24 @@ std::shared_ptr<GaussianConditional> HessianFactor::eliminateCholesky(const Orde
 
   GaussianConditional::shared_ptr conditional;
 
-  try {
-    // Do dense elimination
-    size_t nFrontals = keys.size();
-    assert(nFrontals <= size());
-    info_.choleskyPartial(nFrontals);
-
-    // TODO(frank): pre-allocate GaussianConditional and write into it
-    const VerticalBlockMatrix Ab = info_.split(nFrontals);
-    conditional = std::make_shared<GaussianConditional>(keys_, nFrontals, Ab);
-
-    // Erase the eliminated keys in this factor
-    keys_.erase(begin(), begin() + nFrontals);
-  } catch (const CholeskyFailed&) {
+  // Do dense elimination
+  size_t nFrontals = keys.size();
+  assert(nFrontals <= size());
+  if(!info_.choleskyPartial(nFrontals)) {
 #ifndef NDEBUG
     cout << "Partial Cholesky on HessianFactor failed." << endl;
     keys.print("Frontal keys ");
     print("HessianFactor:");
 #endif
-    throw IndeterminantLinearSystemException(keys.front());
+    return nullptr;
   }
+
+  // TODO(frank): pre-allocate GaussianConditional and write into it
+  const VerticalBlockMatrix Ab = info_.split(nFrontals);
+  conditional = std::make_shared<GaussianConditional>(keys_, nFrontals, Ab);
+
+  // Erase the eliminated keys in this factor
+  keys_.erase(begin(), begin() + nFrontals);
 
   // Return result
   return conditional;
@@ -547,8 +545,14 @@ std::pair<std::shared_ptr<GaussianConditional>,
   // models but Cholesky cannot.
   if (hasConstraints(factors))
     return EliminateQR(factors, keys);
-  else
-    return EliminateCholesky(factors, keys);
+  else {
+    auto cond =  EliminateCholesky(factors, keys);
+    if(cond.first){
+      return cond;
+    } else {
+      return EliminateQR(factors, keys);
+    }
+  }
 }
 
 } // gtsam

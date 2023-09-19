@@ -41,7 +41,7 @@ namespace gtsam {
 
 // Typedefs used in constructors below.
 using Dims = std::vector<Eigen::Index>;
-using Pairs = std::vector<std::pair<Eigen::Index, Matrix>>;
+using Pairs = std::vector<std::pair<Key, Matrix>>;
 
 /* ************************************************************************* */
 JacobianFactor::JacobianFactor() :

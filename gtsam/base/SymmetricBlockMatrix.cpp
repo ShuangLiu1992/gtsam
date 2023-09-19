@@ -80,12 +80,10 @@ void SymmetricBlockMatrix::invertInPlace() {
 }
 
 /* ************************************************************************* */
-void SymmetricBlockMatrix::choleskyPartial(DenseIndex nFrontals) {
+bool SymmetricBlockMatrix::choleskyPartial(DenseIndex nFrontals) {
   gttic(VerticalBlockMatrix_choleskyPartial);
   DenseIndex topleft = variableColOffsets_[blockStart_];
-  if (!gtsam::choleskyPartial(matrix_, offset(nFrontals) - topleft, topleft)) {
-    throw CholeskyFailed();
-  }
+  return gtsam::choleskyPartial(matrix_, offset(nFrontals) - topleft, topleft);
 }
 
 /* ************************************************************************* */

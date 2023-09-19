@@ -288,7 +288,7 @@ namespace gtsam {
      *   L'L is the augmented Hessian on the the separator x2
      * R and Sd can be interpreted as a GaussianConditional |R*x1 + S*x2 - d]^2
      */
-    void choleskyPartial(DenseIndex nFrontals);
+    bool choleskyPartial(DenseIndex nFrontals);
 
     /**
      * After partial Cholesky, we can optionally split off R and Sd, to be interpreted as
