@@ -19,12 +19,6 @@
 
 #include <gtsam/base/types.h>
 
-#ifdef _WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <DbgHelp.h>
-#endif
-
 #ifdef __GNUG__
 #include <cstdlib>
 #include <cxxabi.h>
@@ -43,22 +37,10 @@ std::string demangle(const char* name) {
   char* demangled = nullptr;
   int status = -1; // some arbitrary value to eliminate the compiler warning
   demangled = abi::__cxa_demangle(name, nullptr, nullptr, &status);
-  
+
   demangled_name = (status == 0) ? std::string(demangled) : std::string(name);
 
   std::free(demangled);
-
-#elif _WIN32
-    char undecorated_name[1024];
-    
-    if (UnDecorateSymbolName(
-        name, undecorated_name, sizeof(undecorated_name),
-        UNDNAME_COMPLETE))
-    {
-      // successful conversion, take value from: undecorated_name			                      
-      demangled_name = std::string(undecorated_name);               
-    }
-    // else keep using mangled name
 #endif
 
   return demangled_name;
