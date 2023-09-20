@@ -144,22 +144,6 @@ else()
   set(GTSAM_COMPILE_OPTIONS_PRIVATE_TIMING          -g -O3  CACHE STRING "(User editable) Private compiler flags for Timing configuration.")
 endif()
 
-# Enable C++17:
-if (NOT CMAKE_VERSION VERSION_LESS 3.8)
-    set(GTSAM_COMPILE_FEATURES_PUBLIC "cxx_std_17" CACHE STRING "CMake compile features property for all gtsam targets.")
-    # See: https://cmake.org/cmake/help/latest/prop_tgt/CXX_EXTENSIONS.html
-    set(CMAKE_CXX_EXTENSIONS OFF)
-    if (MSVC)
-      # NOTE(jlblanco): seems to be required in addition to the cxx_std_17 above?
-      list_append_cache(GTSAM_COMPILE_OPTIONS_PUBLIC /std:c++17)
-    endif()
-else()
-  # Old cmake versions:
-  if (NOT MSVC)
-    list_append_cache(GTSAM_COMPILE_OPTIONS_PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>)
-  endif()
-endif()
-
 # Merge all user-defined flags into the variables that are to be actually used by CMake:
 foreach(build_type "common" ${GTSAM_CMAKE_CONFIGURATION_TYPES})
   append_config_if_not_empty(GTSAM_COMPILE_OPTIONS_PRIVATE ${build_type})
