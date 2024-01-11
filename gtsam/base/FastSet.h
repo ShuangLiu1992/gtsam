@@ -18,6 +18,8 @@
 
 #pragma once
 
+#include <gtsam/base/FastDefaultAllocator.h>
+#include <gtsam/base/Testable.h>
 #ifdef GTSAM_ENABLE_BOOST_SERIALIZATION
 #include <boost/version.hpp>
 #if BOOST_VERSION >= 107400
@@ -26,8 +28,6 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/set.hpp>
 #endif
-#include <gtsam/base/FastDefaultAllocator.h>
-#include <gtsam/base/Testable.h>
 
 #include <functional>
 #include <set>
