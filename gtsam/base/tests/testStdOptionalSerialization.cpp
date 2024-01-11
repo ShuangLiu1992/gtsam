@@ -6,7 +6,7 @@
 #include <boost/archive/xml_oarchive.hpp>
 
 #include "gtsam/base/serializationTestHelpers.h"
-#include "gtsam/base/std_optional_serialization.h"
+#include <boost/serialization/optional.hpp>
 
 using namespace gtsam;
 

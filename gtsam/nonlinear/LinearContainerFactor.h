@@ -10,8 +10,9 @@
 #pragma once
 
 #include <gtsam/nonlinear/NonlinearFactorGraph.h>
-#include <gtsam/base/std_optional_serialization.h>
-
+#ifdef GTSAM_ENABLE_BOOST_SERIALIZATION
+#include <boost/serialization/optional.hpp>
+#endif
 #include <optional>
 
 namespace gtsam {

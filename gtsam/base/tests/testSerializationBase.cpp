@@ -28,7 +28,7 @@
 #include <gtsam/base/FastVector.h>
 
 #include <gtsam/base/serializationTestHelpers.h>
-#include <gtsam/base/std_optional_serialization.h>
+#include <boost/serialization/optional.hpp>
 #include <CppUnitLite/TestHarness.h>
 
 using namespace std;
