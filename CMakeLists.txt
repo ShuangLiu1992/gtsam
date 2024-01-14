@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
-# set(CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS "/home/sliu/projects/llvm-project/llvm/build/bin/clang-scan-deps")
-# set(CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS "/home/sliu/projects/clang-scan-deps.py")
-set(CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS "/home/sliu/projects/clang-scan-deps.py")
+set(CMAKE_CXX_SCAN_FOR_MODULES OFF)
 
 # Set the version number for the library
 set (GTSAM_VERSION_MAJOR 4)
