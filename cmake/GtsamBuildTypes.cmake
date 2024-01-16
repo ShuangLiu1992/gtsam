@@ -86,67 +86,6 @@ mark_as_advanced(GTSAM_COMPILE_DEFINITIONS_PRIVATE_RELEASE)
 mark_as_advanced(GTSAM_COMPILE_DEFINITIONS_PRIVATE_PROFILING)
 mark_as_advanced(GTSAM_COMPILE_DEFINITIONS_PRIVATE_TIMING)
 
-if(MSVC)
-  # Common to all configurations:
-  list_append_cache(GTSAM_COMPILE_DEFINITIONS_PRIVATE
-    WINDOWS_LEAN_AND_MEAN
-    NOMINMAX
-  )
-  list_append_cache(GTSAM_COMPILE_DEFINITIONS_PUBLIC
-    _ENABLE_EXTENDED_ALIGNED_STORAGE
-  )
-  # Avoid literally hundreds to thousands of warnings:
-  list_append_cache(GTSAM_COMPILE_OPTIONS_PUBLIC
-    /wd4267 # warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  )
-
-  add_compile_options(/wd4005)
-  add_compile_options(/wd4101)
-  add_compile_options(/wd4834)
-
-endif()
-
-# Other (non-preprocessor macros) compiler flags:
-if(MSVC)
-  # Common to all configurations, next for each configuration:
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_COMMON          /W3 /GR /EHsc /MP  CACHE STRING "(User editable) Private compiler flags for all configurations.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_DEBUG           /MDd /Zi /Ob0 /Od /RTC1  CACHE STRING "(User editable) Private compiler flags for Debug configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_RELWITHDEBINFO  /MD /O2 /D /Zi /d2Zi+  CACHE STRING "(User editable) Private compiler flags for RelWithDebInfo configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_RELEASE         /MD /O2  CACHE STRING "(User editable) Private compiler flags for Release configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_PROFILING       /MD /O2  /Zi  CACHE STRING "(User editable) Private compiler flags for Profiling configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_TIMING          /MD /O2  CACHE STRING "(User editable) Private compiler flags for Timing configuration.")
-else()
-  # Common to all configurations, next for each configuration:
-
-  if (NOT MSVC)
-    check_cxx_compiler_flag(-Wsuggest-override COMPILER_HAS_WSUGGEST_OVERRIDE)
-    check_cxx_compiler_flag(-Wmissing COMPILER_HAS_WMISSING_OVERRIDE)
-    if (COMPILER_HAS_WSUGGEST_OVERRIDE)
-      set(flag_override_ -Wsuggest-override) # -Werror=suggest-override: Add again someday
-    elseif(COMPILER_HAS_WMISSING_OVERRIDE)
-      set(flag_override_ -Wmissing-override) # -Werror=missing-override: Add again someday
-    endif()
-  endif()
-
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_COMMON
-    -Wall                                          # Enable common warnings
-    -fPIC                                          # ensure proper code generation for shared libraries
-    $<$<CXX_COMPILER_ID:GNU>:-Wreturn-local-addr -Werror=return-local-addr>            # Error: return local address
-    $<$<CXX_COMPILER_ID:Clang>:-Wreturn-stack-address   -Werror=return-stack-address>  # Error: return local address
-    $<$<CXX_COMPILER_ID:Clang>:-Wno-weak-template-vtables>  # TODO(dellaert): don't know how to resolve
-    $<$<CXX_COMPILER_ID:Clang>:-Wno-weak-vtables>  # TODO(dellaert): don't know how to resolve
-    -Wreturn-type  -Werror=return-type             # Error on missing return()
-    -Wformat -Werror=format-security               # Error on wrong printf() arguments
-    $<$<COMPILE_LANGUAGE:CXX>:${flag_override_}>   # Enforce the use of the override keyword
-    #
-    CACHE STRING "(User editable) Private compiler flags for all configurations.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_DEBUG           -g -fno-inline  CACHE STRING "(User editable) Private compiler flags for Debug configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_RELWITHDEBINFO  -g -O3  CACHE STRING "(User editable) Private compiler flags for RelWithDebInfo configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_RELEASE         -O3  CACHE STRING "(User editable) Private compiler flags for Release configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_PROFILING       -O3  CACHE STRING "(User editable) Private compiler flags for Profiling configuration.")
-  set(GTSAM_COMPILE_OPTIONS_PRIVATE_TIMING          -g -O3  CACHE STRING "(User editable) Private compiler flags for Timing configuration.")
-endif()
-
 mark_as_advanced(GTSAM_COMPILE_OPTIONS_PRIVATE_COMMON)
 mark_as_advanced(GTSAM_COMPILE_OPTIONS_PRIVATE_DEBUG)
 mark_as_advanced(GTSAM_COMPILE_OPTIONS_PRIVATE_RELWITHDEBINFO)
