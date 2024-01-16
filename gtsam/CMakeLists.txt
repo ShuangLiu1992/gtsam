@@ -29,7 +29,6 @@ set (3rdparty_srcs
  ${eigen_headers} # Set by 3rdparty/CMakeLists.txt
  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/CCOLAMD/Source/ccolamd.c
  ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/SuiteSparse_config/SuiteSparse_config.c)
-gtsam_assign_source_folders("${3rdparty_srcs}") # Create MSVC structure
 
 # To exclude a source from the library build (in any subfolder)
 # Add the full name to this list, as in the following example
@@ -75,7 +74,6 @@ foreach(subdir ${gtsam_subdirs})
     list(REMOVE_ITEM subdir_srcs ${excluded_sources})
 	file(GLOB subdir_test_files "${subdir}/tests/*")
 	list(REMOVE_ITEM subdir_srcs ${subdir_test_files}) # Remove test files from sources compiled into library
-    gtsam_assign_source_folders("${subdir_srcs}") # Create MSVC structure
     set(${subdir}_srcs ${subdir_srcs})
 
     # Build local library and tests
