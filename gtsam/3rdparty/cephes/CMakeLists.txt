@@ -72,7 +72,6 @@ set(CEPHES_SOURCES
     cephes/poch.c
     cephes/psi.c
     cephes/rgamma.c
-    cephes/round.c
     cephes/sf_error.c
     cephes/shichi.c
     cephes/sici.c
