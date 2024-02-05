@@ -31,7 +31,7 @@ namespace gtsam {
   VectorValues::VectorValues(const VectorValues& first, const VectorValues& second)
   {
     // Merge using predicate for comparing first of pair
-    merge(first.begin(), first.end(), second.begin(), second.end(), inserter(values_, values_.end()),
+    merge(first.begin(), first.end(), second.begin(), second.end(), std::inserter(values_, values_.end()),
       std::bind(&std::less<Key>::operator(), std::less<Key>(), std::bind(&KeyValuePair::first, std::placeholders::_1),
           std::bind(&KeyValuePair::first, std::placeholders::_2)));
     if(size() != first.size() + second.size())
