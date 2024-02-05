@@ -21,6 +21,7 @@
 
 #include <gtsam_unstable/nonlinear/ConcurrentFilteringAndSmoothing.h>
 #include <gtsam/nonlinear/LinearContainerFactor.h>
+#include <iterator>
 
 namespace gtsam {
 

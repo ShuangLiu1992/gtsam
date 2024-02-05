@@ -25,6 +25,7 @@
 
 #include <limits>
 #include <algorithm>
+#include <iterator>
 
 namespace gtsam {
 
