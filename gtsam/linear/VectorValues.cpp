@@ -20,6 +20,7 @@
 
 #include <functional>
 #include <utility>
+#include <iterator>
 
 // assert_throw needs a semicolon in Release mode.
 #pragma clang diagnostic push
