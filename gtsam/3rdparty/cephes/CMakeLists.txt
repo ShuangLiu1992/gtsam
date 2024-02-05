@@ -72,7 +72,6 @@ set(CEPHES_SOURCES
     cephes/poch.c
     cephes/psi.c
     cephes/rgamma.c
-    cephes/round.c
     cephes/sf_error.c
     cephes/shichi.c
     cephes/sici.c
@@ -106,7 +105,6 @@ if(WIN32)
   set_target_properties(
     cephes-gtsam
     PROPERTIES PREFIX ""
-               COMPILE_FLAGS /w
                RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/../../../bin")
 endif()
 

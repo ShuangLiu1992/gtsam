@@ -992,13 +992,7 @@ namespace gtsam {
                                const LabelFormatter& labelFormatter,
                                const ValueFormatter& valueFormatter,
                                bool showZero) const {
-    std::ofstream os((name + ".dot").c_str());
-    dot(os, labelFormatter, valueFormatter, showZero);
-    int result =
-        system(("dot -Tpdf " + name + ".dot -o " + name + ".pdf >& /dev/null")
-                   .c_str());
-    if (result == -1)
-      throw std::runtime_error("DecisionTree::dot system call failed");
+      /// removed for targets that do not support system()
   }
 
   template <typename L, typename Y>
