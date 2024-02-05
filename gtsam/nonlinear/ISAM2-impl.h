@@ -33,6 +33,7 @@
 #include <string>
 #include <utility>
 #include <variant>
+#include <iterator>
 
 namespace gtsam {
 
