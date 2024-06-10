@@ -20,6 +20,7 @@
 #include <gtsam/base/Matrix.h>
 #include <gtsam/base/MatrixSerialization.h>
 #include <gtsam/base/FastVector.h>
+#include <cassert>
 
 namespace gtsam {
 
