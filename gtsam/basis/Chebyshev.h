@@ -20,6 +20,7 @@
 
 #include <gtsam/base/Manifold.h>
 #include <gtsam/basis/Basis.h>
+#include <cassert>
 
 namespace gtsam {
 
