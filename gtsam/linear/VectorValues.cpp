@@ -66,6 +66,13 @@ namespace gtsam {
   }
 
   /* ************************************************************************ */
+  std::map<Key, Vector> VectorValues::sorted() const {
+    std::map<Key, Vector> ordered;
+    for (const auto& kv : *this) ordered.emplace(kv);
+    return ordered;
+  }
+
+  /* ************************************************************************ */
   VectorValues VectorValues::Zero(const VectorValues& other)
   {
     VectorValues result;
@@ -131,11 +138,7 @@ namespace gtsam {
   GTSAM_EXPORT std::ostream& operator<<(std::ostream& os, const VectorValues& v) {
     // Change print depending on whether we are using TBB
 #ifdef GTSAM_USE_TBB
-    std::map<Key, Vector> sorted;
-    for (const auto& [key, value] : v) {
-      sorted.emplace(key, value);
-    }
-    for (const auto& [key, value] : sorted)
+    for (const auto& [key, value] : v.sorted())
 #else
     for (const auto& [key,value] : v)
 #endif
@@ -177,7 +180,12 @@ namespace gtsam {
     // Copy vectors
     Vector result(totalDim);
     DenseIndex pos = 0;
+#ifdef GTSAM_USE_TBB
+    // TBB uses un-ordered map, so inefficiently order them:
+    for (const auto& [key, value] : sorted()) {
+#else
     for (const auto& [key, value] : *this) {
+#endif
       result.segment(pos, value.size()) = value;
       pos += value.size();
     }
@@ -393,9 +401,7 @@ namespace gtsam {
     // Print out all rows.
 #ifdef GTSAM_USE_TBB
     // TBB uses un-ordered map, so inefficiently order them:
-    std::map<Key, Vector> ordered;
-    for (const auto& kv : *this) ordered.emplace(kv);
-    for (const auto& kv : ordered) {
+    for (const auto& kv : sorted()) {
 #else
     for (const auto& kv : *this) {
 #endif
